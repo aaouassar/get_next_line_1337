@@ -6,7 +6,7 @@
 /*   By: aaouassa <aaouassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:19:41 by aaouassa          #+#    #+#             */
-/*   Updated: 2022/11/17 13:31:18 by aaouassa         ###   ########.fr       */
+/*   Updated: 2022/11/18 09:55:20 by aaouassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,13 @@ char	*ft_rest(char *rst)
 	int		k;
 
 	i = 0;
-	if (!rst)
-		return (NULL);
 	while (rst[i] && rst[i] != '\n')
 		i++;
 	if (!rst[i])
-		return (NULL);
+		return (free_it(rst));
 	stock = malloc(sizeof(char) * ((ft_strlen(rst) - i) + 1));
 	if (!stock)
-		return (NULL);
+		return (free_it(rst));
 	i++;
 	k = 0;
 	while (rst[i])
@@ -37,6 +35,7 @@ char	*ft_rest(char *rst)
 		i++;
 	}
 	stock[k] = '\0';
+	free(rst);
 	return (stock);
 }
 
@@ -64,59 +63,44 @@ char	*ft_line(char *stline)
 	return (line);
 }
 
-char	*get_next(int fd, char *stach, char *s)
+char	*get_next(int fd, char *stach)
 {
 	char	*buff;
 	int		rd;
-	char	*tmp;
 
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buff)
 		return (NULL);
-	s = ft_strdup(stach);
+	if (!stach)
+		stach = calloc(1, 1);
 	rd = 1;
-	while (!ft_strchr(s, '\n') && rd != 0)
+	while (!ft_strchr(stach, '\n') && rd != 0)
 	{
 		rd = read(fd, buff, BUFFER_SIZE);
 		if (rd == -1)
 		{
-			free(s);
-			free_it(buff);
+			free(stach);
+			free(buff);
+			return (NULL);
 		}
 		buff[rd] = '\0';
-		tmp = ft_strjoin(s, buff);
-		free (s);
-		s = ft_strdup(tmp);
-		free (tmp);
+		stach = ft_strjoin(stach, buff);
 	}
 	free(buff);
-	return (s);
+	return (stach);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*k;
-	char		*tmp;
 	static char	*h;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	tmp = get_next(fd, h, NULL);
-	free (h);
-	h = ft_strdup(tmp);
-	free (tmp);
+	h = get_next(fd, h);
 	if (!h)
 		return (NULL);
 	k = ft_line(h);
-	if (!ft_strlen(k))
-	{
-		free (h);
-		h = NULL;
-	}
-	tmp = ft_rest(h);
-	free (h);
-	h = ft_strdup(tmp);
-	free (tmp);
+	h = ft_rest(h);
 	return (k);
 }
-

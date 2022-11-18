@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaouassa <aaouassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 11:20:07 by aaouassa          #+#    #+#             */
-/*   Updated: 2022/11/17 11:53:47 by aaouassa         ###   ########.fr       */
+/*   Created: 2022/11/18 09:08:38 by aaouassa          #+#    #+#             */
+/*   Updated: 2022/11/18 09:57:32 by aaouassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (ft_strdup(s1));
 	if (!s1 && !s2)
 		return (NULL);
-	i = ft_strlen(s1);
-	j = ft_strlen(s2);
-	sf = malloc(sizeof(char) * (i + j) + 1);
+	sf = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	if (!sf)
 		return (NULL);
 	i = 0;
@@ -74,10 +72,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	j = 0;
 	while (s2[j] != '\0')
-	{
 		sf[i++] = s2[j++];
-	}
 	sf[i] = '\0';
+	free(s1);
 	return (sf);
 }
 
@@ -100,8 +97,9 @@ char	*ft_strchr(char *s, int c)
 		return ((char *)s + i);
 	return (NULL);
 }
-char    *free_it(char *c)
+
+char	*free_it(char *c)
 {
-    free(c);
-    return (NULL);
+	free(c);
+	return (NULL);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaouassa <aaouassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 11:20:42 by aaouassa          #+#    #+#             */
-/*   Updated: 2022/11/17 11:44:03 by aaouassa         ###   ########.fr       */
+/*   Created: 2022/11/18 09:08:02 by aaouassa          #+#    #+#             */
+/*   Updated: 2022/11/18 09:24:59 by aaouassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include<string.h>
 # include<unistd.h>
 # include<limits.h>
+# include<fcntl.h>
+# include<stdio.h>
+# include<limits.h>
 
 char	*get_next_line(int fd);
 char	*ft_line(char *stach);
@@ -28,7 +31,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *s1);
 char	*ft_strchr(char *s, int c);
 size_t	ft_strlen(char *str);
-char	*get_next(int fd, char *stach, char *s);
+char	*get_next(int fd, char *stach);
 char	*ft_rest(char *rst);
 char	*free_it(char *c);
 #endif
